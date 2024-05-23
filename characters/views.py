@@ -1,6 +1,7 @@
 import random
 
 from django.db.models import QuerySet
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import status, generics
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
@@ -10,8 +11,15 @@ from characters.models import Character
 from characters.serializers import CharacterSerializer
 
 
+@extend_schema(
+    responses={status.HTTP_200_OK: CharacterSerializer},
+)
 @api_view(["GET"])
 def get_random_character_view(request: Request) -> Response:
+    """
+    Get random character
+    """
+
     pks = Character.objects.values_list("pk", flat=True)
     random_pk = random.choice(pks)
     random_character = Character.objects.get(pk=random_pk)
@@ -34,3 +42,20 @@ class CharacterListView(generics.ListAPIView):
             queryset = queryset.filter(name__icontains=name)
 
         return queryset
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "name",
+                description="Filter by name insensitive contains (ex. ?name=bob)",
+                required=False,
+                type=str,
+            )
+        ]
+    )
+    def get(self, request, *args, **kwargs) -> Response:
+        """
+        Get a list characters with filter by name
+        """
+
+        return super().get(request, *args, **kwargs)
