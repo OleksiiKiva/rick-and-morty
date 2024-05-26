@@ -23,6 +23,8 @@
   - `./venv/Scripts/activate` (on Windows)
   - `source venv/bin/activate` (on Unix/macOS)
 - Install requirements: `pip install -r requirements.txt`
+- Create new Postgres DB & User
+- Copy .env.sample -> .env and populate with all required data
 - Run migrations: `python manage.py  migrate`
 - Run Redis server:
   - `redis-server`
