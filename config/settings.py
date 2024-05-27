@@ -140,7 +140,10 @@ RICK_AND_MORTY_API_CHARACTERS_URL = "https://rickandmortyapi.com/api/character"
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 10,
 }
+
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "Rick & Morty API",
